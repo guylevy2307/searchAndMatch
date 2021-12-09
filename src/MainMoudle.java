@@ -54,6 +54,8 @@ public class MainMoudle {
             }
         }
         agg.print();
+        System.out.println("DONE");
+        pl.shutdown();
     }
 
 }

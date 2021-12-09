@@ -18,7 +18,8 @@ public class main {
             int lines = lineNumberReader.getLineNumber()+1;
             lineNumberReader.close();
             MainMoudle md=new MainMoudle(br,words,lines);
-
+            br.close();
+            br2.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
