@@ -13,7 +13,11 @@ public class main {
             BufferedReader br = new BufferedReader(new FileReader(file));
             BufferedReader br2 = new BufferedReader(new FileReader(file2));
             String[] words=br2.readLine().split(",");
-            MainMoudle md=new MainMoudle(br,words);
+            LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(file));
+            lineNumberReader.skip(Long.MAX_VALUE);
+            int lines = lineNumberReader.getLineNumber()+1;
+            lineNumberReader.close();
+            MainMoudle md=new MainMoudle(br,words,lines);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

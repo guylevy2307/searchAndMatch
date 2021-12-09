@@ -1,14 +1,15 @@
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.Callable;
 
-public class Matcher implements Runnable  {
+public class Matcher implements Callable<HashMap<String, ArrayList<int[]>>> {
     Scanner part;
     String partText;
     String[] match;
     int lineOffset;
     int charOffset;
-    Map<String, List<int[]>> map;
+    HashMap<String, ArrayList<int[]>> map;
 
     public Matcher(String part, String[] words, int stratLine, int startChar) {
         this.part = new Scanner(part);
@@ -22,18 +23,25 @@ public class Matcher implements Runnable  {
         this.charOffset=startChar;
     }
 
-    public void Test(){
-
+    private String changeChar(String str, boolean flag){
+            if(flag){
+                return str.replace("[^a-zA-Z0-9]"," ");
+            }else{
+                return str;
+            }
+    }
+    @Override
+    public HashMap<String, ArrayList<int[]>> call() {
         int charNumber=0;
         String[] lines=this.partText.split("\n");
         for(int i=0;i<lines.length;i++){
-            lines[i]=lines[i].replace("[^a-zA-Z0-9]"," ");
+            lines[i]=changeChar( lines[i],true);
             String[] line=lines[i].split(" ");
             int j=0;
 
             for(;j<line.length;j++){
                 if(map.containsKey(line[j])){
-                    List t=map.get(line[j]);
+                    ArrayList t=map.get(line[j]);
                     int[] place=new int[]{lineOffset+i,charOffset+charNumber};
                     t.add(place);
                     map.put(line[j],t);
@@ -42,31 +50,6 @@ public class Matcher implements Runnable  {
             }
 
         }
+        return this.map;
     }
-
-    @Override
-    public void run() {
-        int lineNumber=0,charNumber=0;
-        String[] lines=this.partText.split("\n");
-        for(int i=0;i<lines.length;i++){
-            lines[i]=lines[i].replace("[^a-zA-Z0-9]"," ");
-            String[] line=lines[i].split(" ");
-            int j=0;
-            int charOff=0;
-            for(;j<line.length;j++){
-                if(map.containsKey(line[j])){
-                       List t=map.get(line[j]);
-                       int[] place=new int[]{lineOffset+i,charOffset+charOff};
-                       t.add(place);
-                       map.put(line[j],t);
-                }
-                charOff+=line[j].length();
-            }
-
-        }
-    }
-
-
-
-
 }
