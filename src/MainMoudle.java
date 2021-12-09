@@ -13,7 +13,7 @@ public class MainMoudle {
     ExecutorService pl;
     Aggregator agg;
     public MainMoudle(BufferedReader brText,String[] words,int numOfLines) {
-        int stratLine=0,startChar=0;
+        int stratLine=1,startChar=1;
         this.brText = brText;
         this.words=words;
         ArrayList<Future<HashMap<String, ArrayList<int[]>>>> futures = new ArrayList<Future<HashMap<String, ArrayList<int[]>>>>();
